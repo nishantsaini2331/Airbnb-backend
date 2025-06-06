@@ -10,3 +10,22 @@ export async function getHotelByIdService(id: number) {
   const hotel = await hotelRepo.getHotelById(id);
   return hotel;
 }
+
+export async function getAllHotelsService() {
+  const hotels = await hotelRepo.getAllHotels();
+
+  return hotels;
+}
+
+export async function deleteHotelService(id: number) {
+  const hotel = await hotelRepo.deleteHotel(id);
+  return hotel;
+}
+
+export async function updateHotelService(
+  id: number,
+  updateHotelData: createHotelDTO
+) {
+  const updatedData = await hotelRepo.udpateHotel(id, updateHotelData);
+  return updatedData;
+}

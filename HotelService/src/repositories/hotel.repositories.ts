@@ -21,7 +21,43 @@ async function getHotelById(id: number) {
   return hotel;
 }
 
+async function getAllHotels() {
+  const hotels = await Hotel.findAll();
+
+  logger.info(`Hotel found`);
+  return hotels;
+}
+
+async function deleteHotel(id: number) {
+  const hotel = await Hotel.destroy({
+    where: {
+      id,
+    },
+  });
+
+  if (!hotel) {
+    logger.error(`Hotel not found. Unable to delete : ${id}`);
+    throw new NotFoundError(`Hotel with id ${id} not found`);
+  }
+
+  return hotel;
+}
+
+async function udpateHotel(id: number, updatedData: createHotelDTO) {
+  const updatedHotel = await Hotel.update(updatedData, { where: { id } });
+  console.log(updatedHotel);
+  if (!updatedHotel) {
+    logger.error(`Hotel not found. Unable to update : ${id}`);
+    throw new NotFoundError(`Hotel with id ${id} not found`);
+  }
+
+  return getHotelById(id);
+}
+
 export default {
   createHotel,
   getHotelById,
+  getAllHotels,
+  deleteHotel,
+  udpateHotel,
 };

@@ -1,3 +1,3 @@
-import HotelHandler from "./hotel.controller";
+import hotelHandler from "./hotel.controller";
 
-export { HotelHandler };
+export { hotelHandler };
