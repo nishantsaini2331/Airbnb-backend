@@ -10,6 +10,7 @@ router.post(
   validRequestBody(hotelSchema),
   hotelHandler.createHotelHandler
 );
+router.get("/soft-deleted-hotels", hotelHandler.getAllSoftDeletedHotelHandler);
 router.get("/:id", hotelHandler.getHotelByIdHandler);
 router.get("/", hotelHandler.getAllHotelHandler);
 router.delete("/:id", hotelHandler.deleteHotelHandler);

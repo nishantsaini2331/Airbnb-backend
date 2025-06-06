@@ -18,7 +18,7 @@ export async function getAllHotelsService() {
 }
 
 export async function deleteHotelService(id: number) {
-  const hotel = await hotelRepo.deleteHotel(id);
+  const hotel = await hotelRepo.softDeleteHotel(id);
   return hotel;
 }
 
@@ -28,4 +28,9 @@ export async function updateHotelService(
 ) {
   const updatedData = await hotelRepo.udpateHotel(id, updateHotelData);
   return updatedData;
+}
+
+export async function getAllSoftDeletedHotelsService() {
+  const response = await hotelRepo.getAllSoftDeletedHotels();
+  return response;
 }

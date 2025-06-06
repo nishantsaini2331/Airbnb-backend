@@ -4,9 +4,11 @@ import {
   createHotelService,
   deleteHotelService,
   getAllHotelsService,
+  getAllSoftDeletedHotelsService,
   getHotelByIdService,
   updateHotelService,
 } from "../services/hotel.service";
+import { StatusCodes } from "http-status-codes";
 
 async function createHotelHandler(
   req: Request,
@@ -17,7 +19,7 @@ async function createHotelHandler(
     const hotelData: createHotelDTO = req.body;
 
     const hotel = await createHotelService(hotelData);
-    res.status(201).json({
+    res.status(StatusCodes.CREATED).json({
       success: true,
       message: "Hotel created successfully",
       data: hotel,
@@ -36,7 +38,7 @@ async function getHotelByIdHandler(
     const hotelId = Number(req.params.id);
 
     const hotel = await getHotelByIdService(hotelId);
-    res.status(201).json({
+    res.status(StatusCodes.OK).json({
       success: true,
       message: "Hotel found successfully",
       data: hotel,
@@ -53,7 +55,7 @@ async function getAllHotelHandler(
 ) {
   try {
     const hotels = await getAllHotelsService();
-    res.status(201).json({
+    res.status(StatusCodes.OK).json({
       success: true,
       message: "Hotels found successfully",
       data: hotels,
@@ -72,7 +74,7 @@ async function deleteHotelHandler(
     const hotelId = Number(req.params.id);
 
     await deleteHotelService(hotelId);
-    res.status(201).json({
+    res.status(StatusCodes.OK).json({
       success: true,
       message: "Hotel deleted successfully",
     });
@@ -91,10 +93,27 @@ async function updateHotelHandler(
     const updatedHotelData: createHotelDTO = req.body;
 
     const updatedHotel = await updateHotelService(hotelId, updatedHotelData);
-    res.status(201).json({
+    res.status(StatusCodes.OK).json({
       success: true,
       message: "Hotel updated successfully",
       data: updatedHotel,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function getAllSoftDeletedHotelHandler(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const hotels = await getAllSoftDeletedHotelsService();
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: "All soft deleted hotels are fetched successfully",
+      data: hotels,
     });
   } catch (error) {
     next(error);
@@ -107,4 +126,5 @@ export default {
   deleteHotelHandler,
   updateHotelHandler,
   getAllHotelHandler,
+  getAllSoftDeletedHotelHandler,
 };

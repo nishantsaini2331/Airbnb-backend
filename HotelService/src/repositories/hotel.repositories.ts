@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import logger from "../config/logger.config";
 import Hotel from "../db/models/hotel";
 import { createHotelDTO } from "../dto/hotel.dto";
@@ -11,7 +12,9 @@ async function createHotel(hotelData: createHotelDTO) {
 }
 
 async function getHotelById(id: number) {
-  const hotel = await Hotel.findByPk(id);
+  const hotel = await Hotel.findOne({
+    where: { id, deletedAt: null },
+  });
   if (!hotel) {
     logger.error(`hotel not found : ${id}`);
     throw new NotFoundError(`Hotel with id ${id} not found`);
@@ -22,7 +25,7 @@ async function getHotelById(id: number) {
 }
 
 async function getAllHotels() {
-  const hotels = await Hotel.findAll();
+  const hotels = await Hotel.findAll({ where: { deletedAt: null } });
 
   logger.info(`Hotel found`);
   return hotels;
@@ -54,10 +57,35 @@ async function udpateHotel(id: number, updatedData: createHotelDTO) {
   return getHotelById(id);
 }
 
+async function softDeleteHotel(id: number) {
+  const softDeletedHotel = await Hotel.update(
+    { deletedAt: new Date() },
+    { where: { id } }
+  );
+
+  if (!softDeletedHotel[0]) {
+    logger.error(`Hotel not found. Unable to update : ${id}`);
+    throw new NotFoundError(`Hotel with id ${id} not found`);
+  }
+
+  return true;
+}
+
+async function getAllSoftDeletedHotels() {
+  console.log("object");
+  const allSoftDeletedHostels = await Hotel.findAll({
+    where: { deletedAt: { [Op.ne]: null } },
+  });
+
+  return allSoftDeletedHostels;
+}
+
 export default {
   createHotel,
   getHotelById,
   getAllHotels,
   deleteHotel,
   udpateHotel,
+  softDeleteHotel,
+  getAllSoftDeletedHotels,
 };
