@@ -1,8 +1,8 @@
 import express from "express";
-import pingRouter from "./ping.router";
+import hotelRouter from "./hotel.router";
 
 const router = express.Router();
 
-router.use("/ping", pingRouter);
+router.use("/hotels", hotelRouter);
 
 export default router;
