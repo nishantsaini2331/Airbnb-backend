@@ -23,17 +23,17 @@ export class NotFoundError implements AppError {
     this.name = "NotFoundError";
   }
 }
+
 export class BadRequestError implements AppError {
   statusCode: number;
-  name: string;
   message: string;
+  name: string;
   constructor(message: string) {
     this.statusCode = 400;
     this.message = message;
     this.name = "BadRequestError";
   }
 }
-
 export class UnauthorizedError implements AppError {
   statusCode: number;
   name: string;
