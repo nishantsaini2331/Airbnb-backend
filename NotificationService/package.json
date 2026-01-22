@@ -13,15 +13,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@prisma/adapter-mariadb": "^7.1.0",
-    "@prisma/client": "^7.1.0",
     "bullmq": "^5.66.6",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "handlebars": "^4.7.8",
     "ioredis": "^5.9.2",
-    "prisma": "^7.1.0",
-    "redis": "^5.10.0",
-    "redlock": "^5.0.0-beta.2",
+    "nodemailer": "^7.0.12",
     "uuid": "^11.1.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0",
@@ -29,19 +26,9 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.2",
-    "@types/node": "^22.19.3",
-    "@types/redlock": "^4.0.8",
+    "@types/node": "^22.15.21",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nishantsaini2331/expressTypeScriptTemplate.git"
-  },
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/nishantsaini2331/expressTypeScriptTemplate/issues"
-  },
-  "homepage": "https://github.com/nishantsaini2331/expressTypeScriptTemplate#readme"
+  }
 }
