@@ -7,6 +7,8 @@ type ServerConfig = {
   REDIS_HOST: string;
   REDIS_PORT: number;
   REDIS_SERVER_URL: string;
+  MAIL_USER: string;
+  MAIL_PASS: string;
 };
 
 dotenv.config();
@@ -18,4 +20,6 @@ export const serverConfig: ServerConfig = {
   REDIS_HOST: process.env.REDIS_HOST || "localhost",
   REDIS_PORT: Number(process.env.REDIS_PORT) || 6379,
   REDIS_SERVER_URL: process.env.REDIS_SERVER_URL || "redis://localhost:6379",
+  MAIL_USER: process.env.MAIL_USER || "",
+  MAIL_PASS: process.env.MAIL_PASS || "",
 };

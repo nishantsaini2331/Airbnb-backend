@@ -4,6 +4,9 @@ import { NotificationDTO } from "../dto/notification.dto";
 import { getRedisConnection } from "../config/redis.config";
 import { serverConfig } from "../config";
 import { MAILER_PAYLOAD } from "../producers/email.producer";
+import { renderMailTemplate } from "../template/templates.handler";
+import { sendEmail } from "../services/mailer.service";
+import logger from "../config/logger.config";
 
 export const setupMailerWorker = () => {
   const emailProcessor = new Worker<NotificationDTO>(
@@ -13,12 +16,16 @@ export const setupMailerWorker = () => {
         throw new Error(`Unknown job name: ${job.name}`);
       }
 
-      const { to, subject, templateId, params } = job.data;
-
-      console.log(
-        `Sending email to: ${to}, subject: ${subject}, templateId: ${templateId}, params: ${JSON.stringify(params)}`,
-      );
       // Here you would integrate with an actual email service provider
+
+      const payload = job.data;
+      console.log(`Processing email for: ${JSON.stringify(payload)}`);
+
+      const emailContent = await renderMailTemplate(payload.templateId, payload.params);
+
+      await sendEmail(payload.to, payload.subject, emailContent);
+
+      logger.info(`Email sent to ${payload.to} with subject "${payload.subject}"`);
     },
     {
       connection: {
